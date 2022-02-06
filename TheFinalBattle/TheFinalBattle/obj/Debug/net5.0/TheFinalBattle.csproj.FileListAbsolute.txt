@@ -1,0 +1,16 @@
+C:\Development\study\cs-players-guide\TheFinalBattle\TheFinalBattle\TheFinalBattle\bin\Debug\net5.0\TheFinalBattle.exe
+C:\Development\study\cs-players-guide\TheFinalBattle\TheFinalBattle\TheFinalBattle\bin\Debug\net5.0\TheFinalBattle.deps.json
+C:\Development\study\cs-players-guide\TheFinalBattle\TheFinalBattle\TheFinalBattle\bin\Debug\net5.0\TheFinalBattle.runtimeconfig.json
+C:\Development\study\cs-players-guide\TheFinalBattle\TheFinalBattle\TheFinalBattle\bin\Debug\net5.0\TheFinalBattle.runtimeconfig.dev.json
+C:\Development\study\cs-players-guide\TheFinalBattle\TheFinalBattle\TheFinalBattle\bin\Debug\net5.0\TheFinalBattle.dll
+C:\Development\study\cs-players-guide\TheFinalBattle\TheFinalBattle\TheFinalBattle\bin\Debug\net5.0\ref\TheFinalBattle.dll
+C:\Development\study\cs-players-guide\TheFinalBattle\TheFinalBattle\TheFinalBattle\bin\Debug\net5.0\TheFinalBattle.pdb
+C:\Development\study\cs-players-guide\TheFinalBattle\TheFinalBattle\TheFinalBattle\obj\Debug\net5.0\TheFinalBattle.csproj.AssemblyReference.cache
+C:\Development\study\cs-players-guide\TheFinalBattle\TheFinalBattle\TheFinalBattle\obj\Debug\net5.0\TheFinalBattle.GeneratedMSBuildEditorConfig.editorconfig
+C:\Development\study\cs-players-guide\TheFinalBattle\TheFinalBattle\TheFinalBattle\obj\Debug\net5.0\TheFinalBattle.AssemblyInfoInputs.cache
+C:\Development\study\cs-players-guide\TheFinalBattle\TheFinalBattle\TheFinalBattle\obj\Debug\net5.0\TheFinalBattle.AssemblyInfo.cs
+C:\Development\study\cs-players-guide\TheFinalBattle\TheFinalBattle\TheFinalBattle\obj\Debug\net5.0\TheFinalBattle.csproj.CoreCompileInputs.cache
+C:\Development\study\cs-players-guide\TheFinalBattle\TheFinalBattle\TheFinalBattle\obj\Debug\net5.0\TheFinalBattle.dll
+C:\Development\study\cs-players-guide\TheFinalBattle\TheFinalBattle\TheFinalBattle\obj\Debug\net5.0\ref\TheFinalBattle.dll
+C:\Development\study\cs-players-guide\TheFinalBattle\TheFinalBattle\TheFinalBattle\obj\Debug\net5.0\TheFinalBattle.pdb
+C:\Development\study\cs-players-guide\TheFinalBattle\TheFinalBattle\TheFinalBattle\obj\Debug\net5.0\TheFinalBattle.genruntimeconfig.cache

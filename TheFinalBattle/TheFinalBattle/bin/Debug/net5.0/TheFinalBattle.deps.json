@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v5.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v5.0": {
+      "TheFinalBattle/1.0.0": {
+        "runtime": {
+          "TheFinalBattle.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "TheFinalBattle/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
