@@ -2,123 +2,196 @@
 using System.Collections.Generic;
 using System.Threading;
 
+Skeleton PunchingBag = new Skeleton();
+Skeleton PokeDoll = new Skeleton();
 Console.Title = "The Final Battle - a Game by ian6ft5";
 TrueProgrammer player = new TrueProgrammer();
-Battle TestBattle = new Battle();
-TestBattle.Parties[0].AddToParty(player);
-TestBattle.Parties[0].AddToParty(new Skeleton());
-TestBattle.Parties[1].AddToParty(new Skeleton());
+player.TeamUp(new Skeleton());
+player.TeamUp(new Skeleton());
+Battle TestBattle = new Battle(player);
+TestBattle.Enemies.AddToParty(new Skeleton());
+TestBattle.Enemies.AddToParty(new Skeleton());
+
+player.SetTarget(PunchingBag);
+foreach (Character character in player.Allies.Members)
+{
+    character.SetTarget(PunchingBag);
+}
+
+foreach (Character character in TestBattle.Enemies.Members)
+{
+    character.SetTarget(PokeDoll);
+}
 
 int turnCount = 0;
 while (true)
 {
-    for (int i = 0; i < TestBattle.Parties.Count; i++)
-    {
-        turnCount++;
-        TestBattle.PlayTurn(i);
-        Console.WriteLine("\n");
-    }
+    turnCount++;
+    TestBattle.PlayTurn();
+    TestBattle.PlayEnemyTurn();
     if (turnCount % 3 == 0)
         Console.Clear();
+    Console.WriteLine($"Your team has dealt {PunchingBag.DamageTaken} damage.\nThe enemy team has dealt {PokeDoll.DamageTaken} damage.");
 }
 
 public class Battle
 {
-    public List<Party> Parties = new List<Party>();
+    public TrueProgrammer PlayerCharacter { get; init; }
+    public Party Enemies { get; set; } = new Party();
 
-    public Battle()
-    {
-        Parties.Add(new Party(true));
-        Parties.Add(new Party(false));
-    }
+    public Battle(TrueProgrammer player)
+    { PlayerCharacter = player; }
 
-    public void PlayTurn(int party)
+
+    public void PlayTurn()
     {
-        foreach (ICharacter character in Parties[party].Characters)
+        Console.WriteLine($"It is {PlayerCharacter.Name}'s turn.");
+        PlayerCharacter.Act();
+        foreach (Character character in PlayerCharacter.Allies.Members)
         {
-            if (!Parties[party].IsPlayer)
-            {
-                Console.WriteLine($"It's the enemy {character.Name}'s turn.");
-                character.Act(false);
-            }
-            else
-            {
-                Console.WriteLine($"It is {character.Name}'s turn.");
-                Console.ReadKey(true);
-                character.Act(true);
-            }
+            Console.WriteLine($"It is {character.Name}'s turn.");
+            character.Act();
+        }
+    }
+    public void PlayEnemyTurn()
+    {
+        foreach (Character character in Enemies.Members)
+        {
+            Console.WriteLine($"It is the enemy {character.Name}'s turn;");
+            character.Act();
         }
     }
 }
-public interface ICharacter
+
+public class Character
 {
     public string Name { get; init; }
-    public void Act(bool isPlayer);
+    public int HP { get; init; }
+    public int DamageTaken { get; set; }
+    public Character CurrentTarget { get; protected set; }
+    public virtual void Act() => DoNothing();
+    public void DoNothing()
+    {
+        Narrator.NarrateAction(this, false, $"{Name} just stood there.");
+    }
+
+    public void SetTarget(Character newTarget)
+    {
+        CurrentTarget = newTarget;
+    }
+
+    public void TakeDamage(int i ) => DamageTaken += i;
 }
 
-public class Skeleton : ICharacter
+
+public class Skeleton : Character
 {
-    public string Name { get; init; }
     public Skeleton()
     {
         Name = "Skeleton";
+        HP = 5;
+        DamageTaken = 0;
     }
 
-    public void Act(bool isPlayer)
+    public override void Act() => BoneCrunch();
+    public void BoneCrunch()
     {
-        DoNothing(isPlayer);
-    }
-    public void DoNothing(bool isPlayer)
-    {
-        if (!isPlayer)
-        {
-            Thread.Sleep(1750);
-            Console.WriteLine($"{Name} just stood there.");
-            Thread.Sleep(750);
-        }
-        else
-        {
-            Console.WriteLine($"{Name} just stood there.");
-            Thread.Sleep(750);
-        }
+        Random r = new Random();
+        int i = r.Next(2);
+        CurrentTarget.TakeDamage(i);
+        Narrator.NarrateAction(this, false, $"{Name} attacked with Bone Crunch. It dealt {i} damage to {CurrentTarget.Name}.");
     }
 }
 
-public class TrueProgrammer : ICharacter
+public class TrueProgrammer : Character
 {
-    public string Name { get; init; }
+    public Party Allies = new Party();
 
     public TrueProgrammer()
     {
         Console.WriteLine("You are the True Programmer. What is your name?");
         Name = Console.ReadLine();
         Console.Clear();
+        HP = 25;
     }
 
-    public void Act(bool isPlayer)
+    public override void Act()
     {
-        DoNothing();
+        Console.WriteLine("Choose your action.\n    1 - Attack\n    2 - Do nothing");
+        ConsoleKey input = Console.ReadKey(true).Key;
+        switch (input)
+        {
+            case ConsoleKey.NumPad1:
+            case ConsoleKey.D1:
+                Punch();
+                break;
+            default:
+                DoNothing();
+                break;
+        }
+
     }
 
-    public void DoNothing()
+    public void Punch()
     {
-        Console.WriteLine($"{Name} just stood there.");
-        Thread.Sleep(750);
+        CurrentTarget.TakeDamage(1);
+        Narrator.NarrateAction(this, true, $"{Name} threw a strong punch. {Name} dealt 1 damage to {CurrentTarget.Name}.");
+    }
+
+    public void TeamUp(Character newAlly)
+    {
+        Allies.AddToParty(newAlly);
     }
 }
 
-public class Party
+public record Party
 {
-    public List<ICharacter> Characters = new List<ICharacter>();
-    public bool IsPlayer { get; set; }
+    public List<Character> Members = new List<Character>();
 
-    public Party(bool x)
+    public void AddToParty(Character newMember)
     {
-        IsPlayer = x;
+        Members.Add(newMember);
+    }
+}
+
+public static class Narrator
+{
+    public static void NarrateAction(Character actor, bool player, string action)
+    {
+        if (!player)
+        {
+            Thread.Sleep(1750);
+            TypeOut(action);
+            Thread.Sleep(750);
+        }
+        else
+        {
+            TypeOut(action);
+            Thread.Sleep(750);
+        }
     }
 
-    public void AddToParty(ICharacter newMember)
+    public static void TypeOut(string input)
     {
-        Characters.Add(newMember);
+        foreach (char c in input)
+        {
+            Console.Write(c);
+            switch (c)
+            {
+                case '.':
+                    Thread.Sleep(150);
+                    break;
+                case ',':
+                    Thread.Sleep(115);
+                    break;
+                case ' ':
+                    Thread.Sleep(35);
+                    break;
+                default:
+                    Thread.Sleep(50);
+                    break;            
+            }
+        }
+        Console.Write("\n");
     }
 }
